@@ -1,4 +1,4 @@
-package com.stacksimplify.restservicesdemo.hello;
+package com.stacksimplify.restservicesdemo.model;
 
 public class UserDetails {
 
