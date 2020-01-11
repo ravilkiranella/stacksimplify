@@ -13,8 +13,14 @@ import javax.validation.constraints.Size;
 
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "user")
+//@JsonIgnoreProperties({"firstname", "lastname"}) //static filter 
+@JsonFilter(value="userFilter")
 public class User   {
 	
 	@Id
@@ -38,7 +44,8 @@ public class User   {
 	@Column(name = "ROLE", length=50, nullable=false)
 	private String role;
 	
-	@Column(name = "SSN", length=50, nullable=false, unique=true)
+	//@JsonIgnore //ignore a field in the json output
+	@Column(name = "SSN", length=50, nullable=true, unique=true)
 	private String ssn;
 	
 	@OneToMany(mappedBy="user")
