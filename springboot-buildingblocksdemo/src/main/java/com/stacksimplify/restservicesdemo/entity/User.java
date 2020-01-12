@@ -16,39 +16,48 @@ import org.springframework.hateoas.config.EnableHypermediaSupport;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "user")
 //@JsonIgnoreProperties({"firstname", "lastname"}) //static filter 
-@JsonFilter(value="userFilter")
+//@JsonFilter(value="userFilter") -- static filter
 public class User   {
 	
 	@Id
 	@GeneratedValue
+	@JsonView(Views.External.class)
 	private long id;
 	
 	@NotEmpty(message="Username is mandatory field. Pl provide username")
 	@Column(name = "USER_NAME", length=50, nullable=false, unique=true)
+	@JsonView(Views.External.class)
 	private String username;
 	
 	@Size(min=2, message="Firstname should be atleast 2 characters")
 	@Column(name = "FIRST_NAME", length=50, nullable=false)
+	@JsonView(Views.External.class)
 	private String firstname;
 	
 	@Column(name = "LAST_NAME", length=50, nullable=false)
+	@JsonView(Views.External.class)
 	private String lastname;
 	
 	@Column(name = "EMAIL_ADDRESS", length=50, nullable=false)
+	@JsonView(Views.External.class)
 	private String email;
 	
 	@Column(name = "ROLE", length=50, nullable=false)
+	@JsonView(Views.Internal.class)
 	private String role;
 	
 	//@JsonIgnore //ignore a field in the json output
 	@Column(name = "SSN", length=50, nullable=true, unique=true)
+	@JsonView(Views.Internal.class)
 	private String ssn;
 	
 	@OneToMany(mappedBy="user")
+	@JsonView(Views.Internal.class)
 	private List<Order> orders;
 	
 	public List<Order> getOrders() {
